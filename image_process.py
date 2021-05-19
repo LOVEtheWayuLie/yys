@@ -57,13 +57,13 @@ class YysImageProcess(ImageProcess):
   def isYuHunOver(self):
     dst_img = self.screenshot()
     src_img = Image.open('./assets/yuhun_over.png')
-    dst_img.save('./assets/battle_over.png')
+    dst_img.save('./cache/battle_over.png')
     # src_img.show()
     return self.isBattleOver(dst_img, src_img)
 
 def testIsImgExist():
-    a = aircv.imread('./battle_over.png')
-    b = aircv.imread('./yuhun_over.png')
+    a = aircv.imread('./cache/battle_over.png')
+    b = aircv.imread('./assets/yuhun_over.png')
     logger.info(YysImageProcess(None).isBattleOver(a, b))
 
 if __name__ == '__main__':
