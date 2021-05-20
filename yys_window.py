@@ -1,5 +1,6 @@
 from common import *
-from image_process import YysImageProcess
+from util import *
+from yys_image_process import YysImageProcess
 
 class YysWindow(Window):
 
@@ -10,10 +11,16 @@ class YysWindow(Window):
         count = 0
         while True:
             img_process = YysImageProcess(self.hwnd)
-            if img_process.isYuHunOver():
-                count += 1
-                logger.info('第%s轮御魂' % count)
-                pass
-            time.sleep(1)
-            self.windowReset()
+
+            with img_process:
+                if img_process.isYuHunOver():
+                    count += 1
+                    logger.info('第%s轮御魂, 相似度: %s ' % (count, img_process.getComparResult()['confidence']))
+                    self.doClickCenter()
+                    pass
+                if img_process.isFindTreasure():
+                    logger.info('宝藏对比结果--->', img_process.getComparResult())
+                    self.doClickBottomCorner()
+                time.sleep(1)
+                self.windowReset()
         pass

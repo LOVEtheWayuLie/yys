@@ -1,6 +1,5 @@
-import win32gui, win32con, win32api
 from util import logger
-import ctypes
+from common import *
 
 
 def decWindowEffect(func=None):
@@ -23,13 +22,7 @@ class Window:
         if self.isAdmin(self) is False:
             raise ('没有管理权限,无法正常使用')
         
-        decWindowEffect()(self)
-        # # 激活最小化的窗口
-        # win32gui.SendMessage(hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
-        # # 激活后再获取窗口位置信息
-        # rect  = win32gui.GetWindowRect(hwnd)
-        # logger.info('hwnd--> %s %s' % (hwnd, rect ))
-        # win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, rect[0], rect[1], width, height, win32con.SWP_SHOWWINDOW)
+        self.windowReset()
 
     @staticmethod
     def isAdmin(cls):
@@ -72,9 +65,31 @@ class Window:
     def doClick(self, cx, cy):
 
         hwnd = self.hwnd
-
         long_position = win32api.MAKELONG(cx, cy)#模拟鼠标指针 传送到指定坐标
-        
         win32api.SendMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, long_position)#模拟鼠标按下
-
         win32api.SendMessage(hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, long_position)#模拟鼠标弹起
+        coor = cx, cy
+        logger.info("点击坐标 %s " % (coor,))
+        return self
+
+    def doClickCenter(self):
+        coor = self.getCoorCenter((0, 50))
+        self.doClick( *coor)
+        return self
+
+    def doClickBottomCorner(self):
+        '''
+        点击贴底位置
+        '''
+        w, h = self.getWindowSize()
+        coor = random.randint(50, w), random.randint(h-100, h)
+        return self.doClick(*coor)
+
+    def getCoorCenter(self, range=None):
+        '''
+        获取中心坐标
+        '''
+        l, t, r, b = win32gui.GetWindowRect(self.hwnd)
+        offset = random.randint(*range) if not range else 0 
+        coor = (r-l)//2 + offset, (b-t)//2 + offset
+        return coor

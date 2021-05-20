@@ -1,17 +1,46 @@
+from .logger import logger
 from common import *
 
 class ImageProcess:
 
   def __init__(self, hwnd):
     self.hwnd = hwnd
+    self.compar_res = None
+    self.window_image = None
+
+  def __enter__(self):
+    self.window_image = self.windowShot()
+    self.saveImage(self.window_image, './cache/battle_over.png')
+    return self
+
+  def __exit__(self, exc_type, exc_value, exc_tb):
+    if exc_tb is not None:
+      logger.error('异常: %s' % exc_tb)
+    self.window_image = None
 
   def imgFindExist(self, dst_img, src_img):
     dst_img, src_img = np.asarray(dst_img), np.asarray(src_img)
     res = aircv.find_template(dst_img, src_img)
-    logger.info( '图像对比结果--> %s' % res)
+    # logger.info( '图像对比结果--> %s' % res)
+    self.compar_res = res
     return res
 
-  def screenshot(self):
+  def getComparResult(self):
+    return self.compar_res
+
+  def printComparResult(self):
+    logger.info( '图像对比结果--> %s' % self.getComparResult())
+
+  def isSimilar(self, dst_img, src_img, threshold=0.8 ):
+    '''
+    threshold: 阈值
+    '''
+    if dst_img is None:
+      dst_img = self.windowShot()
+    res = self.imgFindExist(dst_img, src_img)
+    return res['confidence'] >= 0.8 if res is not None else None
+
+  def windowShot(self):
     hwnd = self.hwnd
     #获取句柄窗口的大小信息
     left, top, right, bot = win32gui.GetWindowRect(hwnd)
@@ -45,26 +74,8 @@ class ImageProcess:
 
     return im_PIL
 
-class YysImageProcess(ImageProcess):
-
-  def isBattleOver(self, dst_img, src_img, threshold=0.8 ):
-    '''
-    threshold: 阈值
-    '''
-    res = self.imgFindExist(dst_img, src_img)
-    return res['confidence'] >= 0.8 if res is not None else None
-
-  def isYuHunOver(self):
-    dst_img = self.screenshot()
-    src_img = Image.open('./assets/yuhun_over.png')
-    dst_img.save('./cache/battle_over.png')
-    # src_img.show()
-    return self.isBattleOver(dst_img, src_img)
-
-def testIsImgExist():
-    a = aircv.imread('./cache/battle_over.png')
-    b = aircv.imread('./assets/yuhun_over.png')
-    logger.info(YysImageProcess(None).isBattleOver(a, b))
-
-if __name__ == '__main__':
-  testIsImgExist()
+  def saveImage(self, img, path):
+    dirname = os.path.dirname(path)
+    if os.path.exists(dirname) is False:
+      os.makedirs(dirname)
+    img.save(path)
