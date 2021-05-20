@@ -112,6 +112,18 @@ class Window:
         time.sleep(1) # 点击后休息一会儿
         return self
 
+    def doClickMatch(self):
+        '''
+        点击匹配位置
+        '''
+        rectangle = self.img_process.getComparResult()['rectangle']
+        left, top = rectangle[0]
+        right, bottom = rectangle[3]
+        coor = random.randint(left, right), random.randint(top, bottom)
+        self.doClick( *coor)
+        return self
+
+
     def doClickCenter(self):
         coor = self.getCoorCenter((0, 50))
         self.doClick( *coor)
