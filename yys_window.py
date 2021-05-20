@@ -13,10 +13,13 @@ class YysWindow(Window):
             img_process = YysImageProcess(self.hwnd)
 
             with img_process:
+                if img_process.isYuHunSuccessOver():
+                    self.doClickBottomCorner()
                 if img_process.isYuHunOver():
                     count += 1
                     logger.info('第%s轮御魂, 相似度: %s ' % (count, img_process.getComparResult()['confidence']))
-                    self.doClickCenter()
+                    while img_process.isYuHunOver():
+                        self.doClickCenter()
                     pass
                 if img_process.isFindTreasure():
                     logger.info('宝藏对比结果--->', img_process.getComparResult())

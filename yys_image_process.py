@@ -6,6 +6,10 @@ class YysImageProcess(ImageProcess):
   def isYuHunOver(self):
     src_img = Image.open('./assets/yuhun_over.png')
     return self.isSimilar(None, src_img)
+  
+  def isYuHunSuccessOver(self):
+    src_img = Image.open('./assets/yuhun_sucess_over.png')
+    return self.isSimilar(None, src_img)
 
   def isFindTreasure(self):
     '''
