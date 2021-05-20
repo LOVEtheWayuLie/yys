@@ -31,7 +31,7 @@ class ImageProcess:
   def printComparResult(self):
     logger.info( '图像对比结果--> %s' % self.getComparResult())
 
-  def isSimilar(self, dst_img, src_img, threshold=0.8 ):
+  def isSimilar(self, dst_img, src_img, threshold=0.9 ):
     '''
     threshold: 阈值
     '''
