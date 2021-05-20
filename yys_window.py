@@ -21,6 +21,7 @@ class YysWindow(Window):
                 if img_process.isFindTreasure():
                     logger.info('宝藏对比结果--->', img_process.getComparResult())
                     self.doClickBottomCorner()
+                # self.doClickBottomCorner()
                 time.sleep(1)
                 self.windowReset()
         pass

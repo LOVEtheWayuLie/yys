@@ -8,6 +8,34 @@ def decWindowEffect(func=None):
         return func and func(self, *args, **kwargs)
     return wrap
 
+def decSafeMonitorClick(func=None):
+    '''
+    Click安全监测
+    如果短时间内多次触发则终止程序
+    '''
+    count = 0
+    safe_count = 5
+    cycle = 6
+    loca = locals()
+
+    def asyncTask():
+        print('进入线程任务', loca)
+        time.sleep(cycle)
+        if loca['count'] > safe_count:
+            logger.error('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
+            sys.exit(0)
+        loca['count'] = 0
+        asyncTask()
+    thread = Thread(target=asyncTask)
+    thread.start()
+
+    def wrap(self, *args, **kwargs):
+        if thread.isAlive() is False:
+            sys.exit(0)
+        loca['count'] += 1
+        return func(self, *args, **kwargs)
+    return wrap
+
 class Window:
     def __init__(self, title, width, height):
         hwnd = win32gui.FindWindow(None, title)
@@ -62,6 +90,7 @@ class Window:
             win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, rect[0], rect[1], width, height, win32con.SWP_SHOWWINDOW)
             self.widthReal, self.heightReal = self.getWindowSize()
 
+    @decSafeMonitorClick
     def doClick(self, cx, cy):
 
         hwnd = self.hwnd
