@@ -25,20 +25,20 @@ class ImageProcess:
     self.compar_res = res
     return res
 
-  def getComparResult(self):
+  def getComparResult(self) -> dict:
     return self.compar_res
 
   def printComparResult(self):
     logger.info( '图像对比结果--> %s' % self.getComparResult())
 
-  def isSimilar(self, dst_img, src_img, threshold=0.9 ):
+  def isSimilar(self, dst_img, src_img, threshold=0.9 ) -> bool:
     '''
     threshold: 阈值
     '''
     if dst_img is None:
       dst_img = self.windowShot()
     res = self.imgFindExist(dst_img, src_img)
-    return res['confidence'] >= 0.8 if res is not None else None
+    return res['confidence'] >= 0.8 if res is not None else False
 
   def windowShot(self):
     hwnd = self.hwnd

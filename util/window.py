@@ -1,5 +1,6 @@
 from util import logger
 from common import *
+from .image_process import ImageProcess
 
 
 def decWindowEffect(func=None):
@@ -36,13 +37,14 @@ def decSafeMonitorClick(func=None):
     return wrap
 
 class Window:
-    def __init__(self, title, width, height):
+    def __init__(self, title, width, height, img_process: ImageProcess=None):
         hwnd = win32gui.FindWindow(None, title)
         self.hwnd = hwnd
         self.width = width
         self.height = height
         self.widthReal = None
         self.heightReal = None
+        self.img_process = img_process
 
         if hwnd == 0:
             raise ValueError('未检测到-%s' % title)

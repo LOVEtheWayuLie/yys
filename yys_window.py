@@ -6,13 +6,12 @@ class YysWindow(Window):
 
     def __init__(self):
         super().__init__('阴阳师-网易游戏', 400, 225)
-        self.img_process = YysImageProcess()
+        self.img_process = YysImageProcess(self.hwnd)
 
     def yuHun(self):
         count = 0
+        img_process = self.img_process
         while True:
-            img_process = self.img_process
-
             with img_process:
                 if img_process.isYuHunSuccessOver():
                     self.doClickMatch()
