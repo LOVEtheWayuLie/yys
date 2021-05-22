@@ -62,11 +62,12 @@ class Window:
 
     def getWindowRealSize(self):
         '''
-        获取真实窗口大小
+        获取真实窗口大小,排除了外框
         '''
         try:
             f = ctypes.windll.dwmapi.DwmGetWindowAttribute
-        except WindowsError:
+        except WindowsError as error:
+            logger.error(error)
             f = None
         if f:
             rect = ctypes.wintypes.RECT()

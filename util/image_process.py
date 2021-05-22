@@ -10,7 +10,7 @@ class ImageProcess:
 
   def __enter__(self):
     self.window_image = self.windowShot()
-    self.saveImage(self.window_image, './cache/battle_over.png')
+    self.saveImage(self.window_image, './cache/window_shot.png')
     return self
 
   def __exit__(self, exc_type, exc_value, exc_tb):
