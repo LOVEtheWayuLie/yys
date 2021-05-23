@@ -1,6 +1,7 @@
 from util import logger
 from common import *
 from .image_process import ImageProcess
+from .base_thread import *
 
 
 def decWindowEffect(func=None):
@@ -16,22 +17,21 @@ def decSafeMonitorClick(func=None):
     '''
     count = 0
     safe_count = 10
-    cycle = 20
+    cycle = 20 #扫描周期
     loca = locals()
 
-    def asyncTask():
+    def safeMonitorClick():
         time.sleep(cycle)
         if loca['count'] > safe_count:
-            logger.error('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
-            sys.exit(0)
+            raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
         loca['count'] = 0
-        asyncTask()
-    thread = Thread(target=asyncTask)
-    thread.start()
+        safeMonitorClick()
+    t = BaseThread(safeMonitorClick)
+    t.setName('safeMonitorClick')
+    t.start()
 
+    @BaseThread.decTreadNotAliveExit(t)
     def wrap(self, *args, **kwargs):
-        if thread.isAlive() is False:
-            sys.exit(0)
         loca['count'] += 1
         return func(self, *args, **kwargs)
     return wrap

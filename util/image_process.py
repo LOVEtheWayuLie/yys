@@ -28,6 +28,9 @@ class ImageProcess:
   def getComparResult(self) -> dict:
     return self.compar_res
 
+  def getComparConfidence(self) -> float:
+    return self.compar_res and self.compar_res['confidence']
+
   def printComparResult(self):
     logger.info( '图像对比结果--> %s' % self.getComparResult())
 

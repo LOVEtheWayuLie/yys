@@ -22,7 +22,7 @@ class YysImageProcess(ImageProcess):
     return isTrue
 
 def testIsImgExist():
-    a = aircv.imread('./cache/battle_over.png')
+    a = aircv.imread('./cache/window_shot.png')
     b = aircv.imread('./assets/yuhun_over.png')
     logger.info(YysImageProcess(None).isSimilar(a, b))
 
