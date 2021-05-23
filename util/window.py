@@ -115,13 +115,19 @@ class Window:
         time.sleep(1) # 点击后休息一会儿
         return self
 
-    def doClickMatch(self):
+    def doClickMatch(self, xrange: tuple=None, yrange: tuple=None):
         '''
         点击匹配位置
+        range 以百分比调控点击范围
         '''
         rectangle = self.img_process.getComparResult()['rectangle']
         left, top = rectangle[0]
         right, bottom = rectangle[3]
+        width, height = right-left, bottom - top
+        if xrange is not None:
+            left, right = int(xrange[0] * width + left), int(xrange[1] * width + left)
+        if yrange is not None:
+            top, bottom = int(yrange[0] * height + top), int(yrange[1] * height + top)
         coor = random.randint(left, right), random.randint(top, bottom)
         self.doClick( *coor)
         return self

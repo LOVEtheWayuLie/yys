@@ -21,10 +21,16 @@ class YysImageProcess(ImageProcess):
       logger.info('发现宝藏')
     return isTrue
 
-def testIsImgExist():
-    a = aircv.imread('./cache/window_shot.png')
-    b = aircv.imread('./assets/yuhun_over.png')
-    logger.info(YysImageProcess(None).isSimilar(a, b))
+  def isCreateTeam(self):
+    src_img = Image.open('./assets/create_team.png')
+    return self.isSimilar(None, src_img)
+
+def testIsImgExist(src: str, dst: str='window_shot.png'):
+    a = aircv.imread('./cache/%s' % dst)
+    b = aircv.imread('./assets/%s' % src)
+    pro = YysImageProcess(None)
+    pro.isSimilar(a, b)
+    logger.info(pro.getComparResult())
 
 if __name__ == '__main__':
-  testIsImgExist()
+  testIsImgExist('create_team.png')

@@ -38,6 +38,10 @@ class YysWindow(Window):
     def yuHun(self):
         img_process = self.img_process
 
+        if img_process.isCreateTeam():
+            self.doClickMatch(xrange=(0.6, 0.9), yrange=(0.1, 0.9))
+            logger.info('接受组队请求')
+
         if img_process.isBattleSuccessOver():
             self.doClickMatch()
 
