@@ -3,12 +3,12 @@ from util import *
 
 class YysImageProcess(ImageProcess):
 
-  def isYuHunOver(self):
-    src_img = Image.open('./assets/yuhun_over.png')
+  def isBattleOver(self):
+    src_img = Image.open('./assets/battle_over.png')
     return self.isSimilar(None, src_img)
   
-  def isYuHunSuccessOver(self):
-    src_img = Image.open('./assets/yuhun_sucess_over.png')
+  def isBattleSuccessOver(self):
+    src_img = Image.open('./assets/battle_sucess_over.png')
     return self.isSimilar(None, src_img)
 
   def isFindTreasure(self):

@@ -22,10 +22,14 @@ class YysWindow(Window):
                 self.windowReset()
 
     def isWaitBattleOver(self):
+        '''
+        战斗结束通过需要计数.
+        所以需要循环判断，确保当前画面已过去
+        '''
         img_process = self.img_process
-        if img_process.isYuHunOver():
+        if img_process.isBattleOver():
             compar_res = img_process.getComparResult()
-            while img_process.isYuHunOver():
+            while img_process.isBattleOver():
                 self.doClickCenter()
             img_process.compar_res = compar_res
             return True
@@ -34,14 +38,14 @@ class YysWindow(Window):
     def yuHun(self):
         img_process = self.img_process
 
-        if img_process.isYuHunSuccessOver():
+        if img_process.isBattleSuccessOver():
             self.doClickMatch()
 
         if self.isWaitBattleOver():
             self.count_yuhun += 1
             confidence = img_process.getComparConfidence()
             logger.info('第%s轮御魂结束, 相似度: %s ' % (self.count_yuhun, confidence))
-            
+
         if img_process.isFindTreasure():
             logger.info('宝藏对比结果--->', img_process.getComparResult())
             self.doClickBottomCorner()
