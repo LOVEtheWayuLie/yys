@@ -144,3 +144,24 @@ class Window:
         offset = random.randint(*range) if range is not None else 0 
         coor = (r-l)//2 + offset, (b-t)//2 + offset
         return coor
+
+    @staticmethod
+    def decWait(func):
+        '''
+        循环等待画面结束
+        '''
+        def yieldFunc(self: Window, *args, **kwargs):
+            while True:
+                self.img_process.windowImageUpdate()
+                yield func(self, *args, **kwargs)
+
+        def wrap(self: Window, *args, **kwargs):
+            if func(self, *args, **kwargs):
+                compar_res = self.img_process.getComparResult()
+                generate = yieldFunc(self, *args, **kwargs)
+                while next(generate):
+                    pass
+                self.img_process.compar_res = compar_res
+                return True
+            return False
+        return wrap

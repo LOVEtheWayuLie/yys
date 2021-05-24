@@ -21,18 +21,15 @@ class YysWindow(Window):
                 time.sleep(1)
                 self.windowReset()
 
+    @Window.decWait
     def isWaitBattleOver(self):
         '''
         战斗结束通过需要计数.
         所以需要循环判断，确保当前画面已过去
         '''
-        img_process = self.img_process
-        if img_process.isBattleOver():
-            compar_res = img_process.getComparResult()
-            while img_process.isBattleOver():
-                img_process.windowImageUpdate()
-                self.doClickCenter()
-            img_process.compar_res = compar_res
+        isTrue = self.img_process.isBattleOver()
+        if isTrue:
+            self.doClickCenter()
             return True
         return False
 
