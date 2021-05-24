@@ -30,6 +30,7 @@ class YysWindow(Window):
         if img_process.isBattleOver():
             compar_res = img_process.getComparResult()
             while img_process.isBattleOver():
+                img_process.windowImageUpdate()
                 self.doClickCenter()
             img_process.compar_res = compar_res
             return True

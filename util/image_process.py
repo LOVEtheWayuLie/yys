@@ -15,7 +15,7 @@ class ImageProcess:
     self.window_image = None
 
   def __enter__(self):
-    self.window_image = self.windowShot()
+    self.windowImageUpdate()
     self.saveImage(self.window_image, './cache/window_shot.png')
     return self
 
@@ -52,7 +52,13 @@ class ImageProcess:
     res = self.imgFindExist(dst_img, src_img)
     return res['confidence'] >= 0.8 if res is not None else False
 
-  def windowShot(self, isOnlyClient=True):
+  def windowImageUpdate(self):
+    '''
+    重新截图更新图片
+    '''
+    self.window_image = self.windowScreenshot()
+
+  def windowScreenshot(self, isOnlyClient=True):
     '''
     默认只截取客户区域
     '''

@@ -110,7 +110,7 @@ class Window:
         点击匹配位置
         range 以百分比调控点击范围
         '''
-        rectangle = compar_res['rectangle'] or self.img_process.getComparResult()['rectangle']
+        rectangle = compar_res['rectangle'] if compar_res is not None else self.img_process.getComparResult()['rectangle']
         left, top = rectangle[0]
         right, bottom = rectangle[3]
         width, height = right-left, bottom - top
