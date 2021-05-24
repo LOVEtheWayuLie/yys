@@ -1,4 +1,4 @@
-from util import logger
+from util import logger, logStackInfo
 from common import *
 from .image_process import ImageProcess
 from .base_thread import *
@@ -101,7 +101,8 @@ class Window:
         win32api.SendMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, long_position)#模拟鼠标按下
         win32api.SendMessage(hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, long_position)#模拟鼠标弹起
         coor = cx, cy
-        logger.info("点击坐标 %s " % (coor,))
+        # logger.info("点击坐标 %s " % (coor,))
+        logStackInfo("点击坐标 %s " % (coor,), prevNum=5)
         time.sleep(1) # 点击后休息一会儿
         return self
 

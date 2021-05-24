@@ -40,4 +40,4 @@ def testIsImgExist(src: str, dst: str='window_shot.png'):
     logger.info(pro.getComparResult())
 
 if __name__ == '__main__':
-  testIsImgExist('create_team.png')
+  testIsImgExist('join_team.png')
