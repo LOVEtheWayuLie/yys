@@ -42,8 +42,8 @@ class Window:
         self.hwnd = hwnd
         self.width = width
         self.height = height
-        self.widthReal = None
-        self.heightReal = None
+        self.client_width = None, 
+        self.client_height = None,
         self.img_process = img_process
 
         if hwnd == 0:
@@ -60,29 +60,17 @@ class Window:
         '''
         return bool(ctypes.windll.shell32.IsUserAnAdmin())
 
-    def getWindowRealSize(self):
+    def getClientSize(self):
         '''
-        获取真实窗口大小,排除了外框
+        客户区域大小
+        排除非客户区域的边框,菜单栏等等
         '''
-        try:
-            f = ctypes.windll.dwmapi.DwmGetWindowAttribute
-        except WindowsError as error:
-            logger.error(error)
-            f = None
-        if f:
-            rect = ctypes.wintypes.RECT()
-            DWMWA_EXTENDED_FRAME_BOUNDS = 9
-            f(ctypes.wintypes.HWND(self.hwnd),
-            ctypes.wintypes.DWORD(DWMWA_EXTENDED_FRAME_BOUNDS),
-            ctypes.byref(rect),
-            ctypes.sizeof(rect)
-            )
-            size = (rect.right - rect.left, rect.bottom - rect.top)        
-            return size
-    
+        l, t, r, b = win32gui.GetClientRect(self.hwnd)
+        return r, b
+
     def getWindowRectSize(self):
         '''
-        窗口边界大小
+        窗口边界大小,包含非客户区域
         '''
         l, t, r, b = win32gui.GetWindowRect(self.hwnd)
         w, h = r-l, b-t
@@ -93,19 +81,21 @@ class Window:
         width = self.width
         height = self.height
         rect  = win32gui.GetWindowRect(hwnd)
-        isSizeEffect = self.widthReal == self.getWindowRealSize()[0]
+        isSizeEffect = self.client_width == self.getClientSize()[0]
         if rect[0] < 0 or isSizeEffect is False:
             # 激活最小化的窗口
             win32gui.SendMessage(hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
             # 激活后再获取窗口位置信息
             rect  = win32gui.GetWindowRect(hwnd)
-            logger.info('重置窗口尺寸--> %s, 真实尺寸--->%s' % ((width, height), self.getWindowRealSize()))
             win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, rect[0], rect[1], width, height, win32con.SWP_SHOWWINDOW)
-            self.widthReal, self.heightReal = self.getWindowRealSize()
+            self.client_width, self.client_height = self.getClientSize()
+            logger.info('重置窗口尺寸--> %s, client区域尺寸--->%s' % ((width, height), self.getClientSize()))
 
     @decSafeMonitorClick
     def doClick(self, cx, cy):
-
+        '''
+        点击坐标是根据Client区域范围来的
+        '''
         hwnd = self.hwnd
         long_position = win32api.MAKELONG(cx, cy)#模拟鼠标指针 传送到指定坐标
         win32api.SendMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, long_position)#模拟鼠标按下
@@ -115,12 +105,12 @@ class Window:
         time.sleep(1) # 点击后休息一会儿
         return self
 
-    def doClickMatch(self, xrange: tuple=None, yrange: tuple=None):
+    def doClickMatch(self, xrange: tuple=None, yrange: tuple=None, compar_res=None):
         '''
         点击匹配位置
         range 以百分比调控点击范围
         '''
-        rectangle = self.img_process.getComparResult()['rectangle']
+        rectangle = compar_res['rectangle'] or self.img_process.getComparResult()['rectangle']
         left, top = rectangle[0]
         right, bottom = rectangle[3]
         width, height = right-left, bottom - top

@@ -5,7 +5,7 @@ from yys_image_process import YysImageProcess
 class YysWindow(Window):
 
     def __init__(self):
-        super().__init__('阴阳师-网易游戏', 400, 225)
+        super().__init__('阴阳师-网易游戏', 400, 255)
         self.img_process = YysImageProcess(self.hwnd)
         self.count_yuhun = 0
 
@@ -38,9 +38,14 @@ class YysWindow(Window):
     def yuHun(self):
         img_process = self.img_process
 
-        if img_process.isCreateTeam():
-            self.doClickMatch(xrange=(0.6, 0.9), yrange=(0.1, 0.9))
-            logger.info('接受组队请求')
+        if img_process.isJoinTeam():
+            compar_res = img_process.getComparResult()
+            if img_process.isJoinTeamAuto():
+                self.doClickMatch(xrange=(0.8, 0.95), yrange=(0.1, 0.9))
+                logger.info('接受自动组队请求')
+            else:
+                self.doClickMatch(xrange=(0.7, 0.5), yrange=(0.1, 0.9), compar_res=compar_res)
+                logger.info('接受组队请求')
 
         if img_process.isBattleSuccessOver():
             self.doClickMatch()
