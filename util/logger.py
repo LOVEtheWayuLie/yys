@@ -5,8 +5,8 @@ import os
 
 __all__ = ['logger', 'logStackInfo']
 
-logger = logging.getLogger()
-logLevel = logging.INFO
+logger = logging.getLogger('logger')
+logLevel = logging.DEBUG
 logger.setLevel(logLevel)
 
 # 创建一个流处理器handler并设置其日志级别为DEBUG
