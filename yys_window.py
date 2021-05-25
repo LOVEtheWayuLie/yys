@@ -20,7 +20,6 @@ class YysWindow(Window):
                         raise ValueError('不存在任务类型---> %s ' % task)
                 time.sleep(1)
                 self.windowReset()
-            self.doClickCenter()
 
     @Window.decWait
     def isWaitBattleOver(self):
@@ -42,7 +41,7 @@ class YysWindow(Window):
                 self.doClickMatch(xrange=(0.8, 0.95), yrange=(0.1, 0.9))
                 logger.info('接受自动组队请求')
             elif img_process.isJoinTeam():
-                self.doClickMatch(xrange=(0.7, 0.5), yrange=(0.1, 0.9))
+                self.doClickMatch(xrange=(0.7, 0.95), yrange=(0.1, 0.9))
                 logger.info('接受组队请求')
 
         if img_process.isBattleSuccessOver():
