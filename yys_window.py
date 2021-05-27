@@ -21,18 +21,6 @@ class YysWindow(Window):
                 time.sleep(1)
                 self.windowReset()
 
-    @Window.decWait
-    def isWaitBattleOver(self):
-        '''
-        战斗结束通过需要计数.
-        所以需要循环判断，确保当前画面已过去
-        '''
-        isTrue = self.img_process.isBattleOver()
-        if isTrue:
-            self.doClickCenter()
-            return True
-        return False
-
     def yuHun(self):
         img_process = self.img_process
 
@@ -42,7 +30,11 @@ class YysWindow(Window):
                 logger.info('接受自动组队请求')
             elif img_process.isJoinTeam():
                 self.doClickMatch(xrange=(0.7, 0.95), yrange=(0.1, 0.9))
-                logger.info('接受组队请求')
+                logger.info('接受组队请求' if img_process.isTongXinZhiLan() is False else '接受同心之兰')
+
+        if img_process.isBattleReady():
+            self.doClickMatch()
+            logger.info('点击准备战斗')
 
         if img_process.isBattleSuccessOver():
             self.doClickMatch()
@@ -55,3 +47,15 @@ class YysWindow(Window):
         if img_process.isFindTreasure():
             logger.info('宝藏对比结果--->', img_process.getComparResult())
             self.doClickBottomCorner()
+
+    @Window.decWait
+    def isWaitBattleOver(self):
+        '''
+        战斗结束通过需要计数.
+        所以需要循环判断，确保当前画面已过去
+        '''
+        isTrue = self.img_process.isBattleOver()
+        if isTrue:
+            self.doClickCenter()
+            return True
+        return False

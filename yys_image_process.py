@@ -21,6 +21,10 @@ class YysImageProcess(ImageProcess):
       logger.info('发现宝藏')
     return isTrue
 
+  def isTongXinZhiLan(self):
+    src_img = Image.open('./assets/tong_xin_zhi_lan.png')
+    return self.isSimilar(None, src_img)
+
   def isJoinTeam(self):
     src_img = Image.open('./assets/join_team.png')
     return self.isSimilar(None, src_img)
@@ -30,6 +34,13 @@ class YysImageProcess(ImageProcess):
     接受自动组队
     '''
     src_img = Image.open('./assets/join_team_auto.png')
+    return self.isSimilar(None, src_img)
+
+  def isBattleReady(self):
+    '''
+    战斗准备
+    '''
+    src_img = Image.open('./assets/battle_ready.png')
     return self.isSimilar(None, src_img)
 
 def testIsImgExist(src: str, dst: str='window_shot.png'):
