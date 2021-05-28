@@ -49,7 +49,7 @@ class Window:
         if hwnd == 0:
             raise ValueError('未检测到-%s' % title)
         if self.isAdmin(self) is False:
-            raise ('没有管理权限,无法正常使用')
+            raise BaseException('没有管理权限,无法正常使用')
         
         self.windowReset()
 
