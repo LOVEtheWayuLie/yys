@@ -32,9 +32,9 @@ class YysWindow(Window):
                 self.doClickMatch(xrange=(0.7, 0.95), yrange=(0.1, 0.9))
                 logger.info('接受组队请求' if img_process.isTongXinZhiLan() is False else '接受同心之兰')
 
-        if img_process.isBattleReady():
-            self.doClickMatch()
-            logger.info('点击准备战斗')
+        # if img_process.isBattleReady():
+        #     self.doClickMatch()
+        #     logger.info('点击准备战斗')
 
         if img_process.isBattleSuccessOver():
             self.doClickMatch()

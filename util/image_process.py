@@ -50,7 +50,7 @@ class ImageProcess:
     if dst_img is None:
       dst_img = self.window_image
     res = self.imgFindExist(dst_img, src_img)
-    return res['confidence'] >= 0.8 if res is not None else False
+    return res['confidence'] >= threshold if res is not None else False
 
   def windowImageUpdate(self):
     '''
