@@ -5,7 +5,6 @@ def main():
   yysWin.run(['yuHun'])
 
 if __name__ == "__main__":
-  # print('test')
   main()
   # import webview
   # from webview.platforms.cef import settings

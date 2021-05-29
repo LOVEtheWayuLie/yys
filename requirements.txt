@@ -1,0 +1,5 @@
+pywin32==228
+aircv==1.4.6
+opencv-python==4.5.2.52
+MBPython==0.2.2
+Pillow==8.2.0
