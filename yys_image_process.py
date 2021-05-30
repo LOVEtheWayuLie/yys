@@ -36,6 +36,18 @@ class YysImageProcess(ImageProcess):
     src_img = Image.open('./assets/join_team_auto.png')
     return self.isSimilar(None, src_img)
 
+  def isTeamEmpty(self):
+    '''
+    判断当前处于空队伍状态
+    '''
+    return self.isSimilar(None, Image.open('./assets/team_empty.png'))
+
+  def isTeamExitConfirm(self):
+    '''
+    确认退出组队
+    '''
+    return self.isSimilar(None, Image.open('./assets/team_exit_confirm.png'))
+
   def isBattleReady(self):
     '''
     战斗准备

@@ -123,6 +123,10 @@ class Window:
         self.doClick( *coor)
         return self
 
+    def doClickAppoint(self, xrang: tuple, yrange: tuple):
+        coor = random.randint(xrang[0], xrang[1]), random.randint(yrange[0], yrange[1])
+        return self.doClick(*coor)
+
 
     def doClickCenter(self):
         coor = self.getCoorCenter((0, 50))
@@ -166,3 +170,21 @@ class Window:
                 return True
             return False
         return wrap
+
+    @staticmethod
+    def decTimeoutByCount(num=5):
+        '''
+        停留在指画面时间过长, 达到指定计数量
+        '''
+        def wrapper(func):
+            empty_list = []
+            def wrap(*args, **kwargs):
+                res = func(*args, **kwargs)
+                if res is True:
+                    empty_list.append(res)
+                else:
+                    empty_list.clear()
+                return empty_list.count(True) >= num
+            return wrap
+        return wrapper
+

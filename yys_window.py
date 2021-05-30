@@ -32,6 +32,14 @@ class YysWindow(Window):
                 self.doClickMatch(xrange=(0.7, 0.95), yrange=(0.1, 0.9))
                 logger.info('接受组队请求' if img_process.isTongXinZhiLan() is False else '接受同心之兰')
 
+        if self.isTeamEmptyTimeout():
+            logger.info('当前处于空队伍状态')
+            self.doClickAppoint((10, 18), (5, 15))
+
+        if img_process.isTeamExitConfirm():
+            logger.info('确认退出队伍')
+            self.doClickMatch(xrange=(0.65, 0.95), yrange=(0.67, 0.92))
+
         # if img_process.isBattleReady():
         #     self.doClickMatch()
         #     logger.info('点击准备战斗')
@@ -59,3 +67,7 @@ class YysWindow(Window):
             self.doClickCenter()
             return True
         return False
+
+    @Window.decTimeoutByCount(5)
+    def isTeamEmptyTimeout(self):
+        return self.img_process.isTeamEmpty()
