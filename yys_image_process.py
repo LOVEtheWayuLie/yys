@@ -55,6 +55,12 @@ class YysImageProcess(ImageProcess):
     src_img = Image.open('./assets/battle_ready.png')
     return self.isSimilar(None, src_img)
 
+  def isOffLine(self):
+    '''
+    确认掉线
+    '''
+    return self.isSimilar(None, Image.open('./assets/off_line.png'))
+
 def testIsImgExist(src: str, dst: str='window_shot.png'):
     a = aircv.imread('./cache/%s' % dst)
     b = aircv.imread('./assets/%s' % src)

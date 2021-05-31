@@ -24,6 +24,10 @@ class YysWindow(Window):
     def yuHun(self):
         img_process = self.img_process
 
+        if img_process.isOffLine():
+            self.doClickMatch(xrange=(0.4, 0.7), yrange=(0.8, 1))
+            logger.info('断线期间战斗结束')
+
         if img_process.isJoinTeam():
             if img_process.isJoinTeamAuto():
                 self.doClickMatch(xrange=(0.8, 0.95), yrange=(0.1, 0.9))
