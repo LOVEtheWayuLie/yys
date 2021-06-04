@@ -21,6 +21,23 @@ class YysWindow(Window):
                 time.sleep(1)
                 self.windowReset()
 
+    def tempActivity(self):
+        '''
+        阿修罗活动
+        '''
+        img_process = self.img_process
+
+        if img_process.isSimilar(None, Image.open('assets/temp_activity/challenge.png')):
+            self.doClickMatch()
+
+        if img_process.isBattleSuccessOver():
+            self.doClickMatch()
+
+        if self.isWaitBattleOver():
+            self.count_yuhun += 1
+            confidence = img_process.getComparConfidence()
+            logger.info('第%s轮活动结束, 相似度: %s ' % (self.count_yuhun, confidence))
+
     def yuHun(self):
         img_process = self.img_process
 
