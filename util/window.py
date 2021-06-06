@@ -21,11 +21,11 @@ def decSafeMonitorClick(func=None):
     loca = locals()
 
     def safeMonitorClick():
-        time.sleep(cycle)
-        if loca['count'] > safe_count:
-            raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
-        loca['count'] = 0
-        safeMonitorClick()
+        while True:
+            time.sleep(cycle)
+            if loca['count'] > safe_count:
+                raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
+            loca['count'] = 0
     t = BaseThread(safeMonitorClick)
     t.setName('safeMonitorClick')
     t.start()
