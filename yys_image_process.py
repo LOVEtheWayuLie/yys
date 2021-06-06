@@ -61,6 +61,15 @@ class YysImageProcess(ImageProcess):
     '''
     return self.isSimilar(None, Image.open('./assets/off_line.png'))
 
+  def isReward(self):
+    '''
+    悬赏封印
+    '''
+    return self.isSimilar(None, Image.open('./assets/reward.png'))
+
+  def isRewardAccept(self):
+    return self.isSimilar(None, Image.open('./assets/reward_accept.png'))
+
 def testIsImgExist(src: str, dst: str='window_shot.png'):
     a = aircv.imread('./cache/%s' % dst)
     b = aircv.imread('./assets/%s' % src)

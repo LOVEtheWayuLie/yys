@@ -37,6 +37,31 @@ class YysWindow(Window):
             self.count_yuhun += 1
             confidence = img_process.getComparConfidence()
             logger.info('第%s轮活动结束, 相似度: %s ' % (self.count_yuhun, confidence))
+    
+    def miWen(self):
+        '''
+        秘闻挑战
+        '''
+        img_process = self.img_process
+
+        if img_process.isSimilar(None, Image.open('assets/challenge_miwen.png')):
+            self.doClickMatch()
+
+        if img_process.isBattleSuccessOver():
+            self.doClickMatch()
+
+        if self.isWaitBattleOver():
+            self.count_yuhun += 1
+            confidence = img_process.getComparConfidence()
+            logger.info('第%s轮活动结束, 相似度: %s ' % (self.count_yuhun, confidence))
+        
+        if img_process.isReward():
+            if img_process.isRewardAccept():
+                logger.info('当前有一个悬赏,已接受')
+                self.doClickMatch()
+                
+        if img_process.isBattleReady():
+            self.doClickMatch()
 
     def yuHun(self):
         img_process = self.img_process
