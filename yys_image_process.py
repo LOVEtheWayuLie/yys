@@ -78,4 +78,4 @@ def testIsImgExist(src: str, dst: str='window_shot.png'):
     logger.info(pro.getComparResult())
 
 if __name__ == '__main__':
-  testIsImgExist('tong_xin_zhi_lan.png')
+  testIsImgExist('off_line.png', dst='window_shot off_line.png')
