@@ -69,6 +69,13 @@ class YysWindow(Window):
         if img_process.isOffLine():
             self.doClickMatch(xrange=(0.4, 0.7), yrange=(0.8, 1))
             logger.info('断线期间战斗结束')
+        
+        if img_process.isReward():
+            logger.info('收到一个悬赏封印')
+            time.sleep(5) # 等待3秒再接受悬赏,尽量只接受仅给我的悬赏
+            if img_process.isRewardAccept():
+                logger.info('接受悬赏, 相似度%s' % img_process.getComparConfidence())
+                self.doClickMatch()
 
         if img_process.isJoinTeam():
             if img_process.isJoinTeamAuto():
