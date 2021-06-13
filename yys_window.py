@@ -63,6 +63,23 @@ class YysWindow(Window):
         if img_process.isBattleReady():
             self.doClickMatch()
 
+    def chiZhen(self):
+        '''
+        痴阵
+        '''
+        img_process = self.img_process
+
+        if img_process.isSimilar(None, Image.open('assets/challenge_chizhen.png')):
+            self.doClickMatch()
+
+        if img_process.isBattleSuccessOver():
+            self.doClickMatch()
+
+        if self.isWaitBattleOver():
+            self.count_yuhun += 1
+            confidence = img_process.getComparConfidence()
+            logger.info('第%s轮痴阵结束, 相似度: %s ' % (self.count_yuhun, confidence))
+
     def yuHun(self):
         img_process = self.img_process
 
