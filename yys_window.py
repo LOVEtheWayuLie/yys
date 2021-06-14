@@ -80,6 +80,40 @@ class YysWindow(Window):
             confidence = img_process.getComparConfidence()
             logger.info('第%s轮痴阵结束, 相似度: %s ' % (self.count_yuhun, confidence))
 
+    def yaoQi(self):
+        '''
+        妖气封印
+        '''
+        img_process = self.img_process
+
+        if img_process.isSimilar(None, Image.open('assets/yaoqi/yaoqi_wait.png')):
+            # logger.info('排队等候中')
+            return
+
+        if img_process.isSimilar(None, Image.open('assets/yaoqi/yaoqi_team.png')):
+            logger.info('点击组队')
+            self.doClickMatch()
+
+        if img_process.isSimilar(None, Image.open('assets/yaoqi/yaoqi_pipei.png')):
+                logger.info('开始匹配')
+                self.doClickMatch()
+
+        if img_process.isReward():
+            if img_process.isRewardAccept():
+                logger.info('当前有一个悬赏,已接受')
+                self.doClickMatch()
+                
+        if img_process.isBattleReady():
+            self.doClickMatch()
+
+        if img_process.isBattleSuccessOver():
+            self.doClickMatch()
+
+        if self.isWaitBattleOver():
+            self.count_yuhun += 1
+            confidence = img_process.getComparConfidence()
+            logger.info('第%s轮妖气封印结束, 相似度: %s ' % (self.count_yuhun, confidence))
+
     def yuHun(self):
         img_process = self.img_process
 
