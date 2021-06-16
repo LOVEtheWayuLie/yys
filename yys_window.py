@@ -21,6 +21,28 @@ class YysWindow(Window):
                 time.sleep(1)
                 self.windowReset()
 
+    def commonLogic(self, reward_accept=True):
+        '''
+        公共逻辑抽取
+        '''
+        img_process = self.img_process
+
+        if img_process.isBattleSuccessOver():
+            self.doClickMatch()
+
+        if self.isWaitBattleOver():
+            self.count_yuhun += 1
+            confidence = img_process.getComparConfidence()
+            logger.info('第%s轮活动结束, 相似度: %s ' % (self.count_yuhun, confidence))
+
+        if reward_accept and img_process.isReward():
+            logger.info('收到一个悬赏封印')
+            time.sleep(5) # 等待3秒再接受悬赏,尽量只接受仅给我的悬赏
+            if img_process.isRewardAccept():
+                logger.info('接受悬赏, 相似度%s' % img_process.getComparConfidence())
+                self.doClickMatch()
+
+
     def tempActivity(self):
         '''
         阿修罗活动
@@ -30,60 +52,42 @@ class YysWindow(Window):
         if img_process.isSimilar(None, Image.open('assets/temp_activity/challenge.png')):
             self.doClickMatch()
 
-        if img_process.isBattleSuccessOver():
-            self.doClickMatch()
+        self.commonLogic()
 
-        if self.isWaitBattleOver():
-            self.count_yuhun += 1
-            confidence = img_process.getComparConfidence()
-            logger.info('第%s轮活动结束, 相似度: %s ' % (self.count_yuhun, confidence))
-    
     def miWen(self):
         '''
         秘闻挑战
         '''
+        self.commonLogic()
+
         img_process = self.img_process
 
         if img_process.isSimilar(None, Image.open('assets/challenge_miwen.png')):
             self.doClickMatch()
 
-        if img_process.isBattleSuccessOver():
-            self.doClickMatch()
-
-        if self.isWaitBattleOver():
-            self.count_yuhun += 1
-            confidence = img_process.getComparConfidence()
-            logger.info('第%s轮活动结束, 相似度: %s ' % (self.count_yuhun, confidence))
-        
-        if img_process.isReward():
-            if img_process.isRewardAccept():
-                logger.info('当前有一个悬赏,已接受')
-                self.doClickMatch()
-                
         if img_process.isBattleReady():
             self.doClickMatch()
 
+        
     def chiZhen(self):
         '''
         痴阵
         '''
+        self.commonLogic()
+        
         img_process = self.img_process
 
         if img_process.isSimilar(None, Image.open('assets/challenge_chizhen.png')):
             self.doClickMatch()
 
-        if img_process.isBattleSuccessOver():
-            self.doClickMatch()
-
-        if self.isWaitBattleOver():
-            self.count_yuhun += 1
-            confidence = img_process.getComparConfidence()
-            logger.info('第%s轮痴阵结束, 相似度: %s ' % (self.count_yuhun, confidence))
+        
 
     def yaoQi(self):
         '''
         妖气封印
         '''
+        self.commonLogic()
+
         img_process = self.img_process
 
         if img_process.isSimilar(None, Image.open('assets/yaoqi/yaoqi_wait.png')):
@@ -98,36 +102,20 @@ class YysWindow(Window):
                 logger.info('开始匹配')
                 self.doClickMatch()
 
-        if img_process.isReward():
-            if img_process.isRewardAccept():
-                logger.info('当前有一个悬赏,已接受')
-                self.doClickMatch()
-                
         if img_process.isBattleReady():
             self.doClickMatch()
+        
 
-        if img_process.isBattleSuccessOver():
-            self.doClickMatch()
-
-        if self.isWaitBattleOver():
-            self.count_yuhun += 1
-            confidence = img_process.getComparConfidence()
-            logger.info('第%s轮妖气封印结束, 相似度: %s ' % (self.count_yuhun, confidence))
 
     def yuHun(self):
         img_process = self.img_process
+
+        self.commonLogic()
 
         if img_process.isOffLine():
             self.doClickMatch(xrange=(0.4, 0.7), yrange=(0.8, 1))
             logger.info('断线期间战斗结束')
         
-        if img_process.isReward():
-            logger.info('收到一个悬赏封印')
-            time.sleep(5) # 等待3秒再接受悬赏,尽量只接受仅给我的悬赏
-            if img_process.isRewardAccept():
-                logger.info('接受悬赏, 相似度%s' % img_process.getComparConfidence())
-                self.doClickMatch()
-
         if img_process.isJoinTeam():
             if img_process.isJoinTeamAuto():
                 self.doClickMatch(xrange=(0.8, 0.95), yrange=(0.1, 0.9))
@@ -147,15 +135,6 @@ class YysWindow(Window):
         # if img_process.isBattleReady():
         #     self.doClickMatch()
         #     logger.info('点击准备战斗')
-
-        if img_process.isBattleSuccessOver():
-            self.doClickMatch()
-
-        if self.isWaitBattleOver():
-            self.count_yuhun += 1
-            confidence = img_process.getComparConfidence()
-            logger.info('第%s轮御魂结束, 相似度: %s ' % (self.count_yuhun, confidence))
-
         if img_process.isFindTreasure():
             logger.info('宝藏对比结果--->', img_process.getComparResult())
             self.doClickBottomCorner()
