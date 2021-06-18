@@ -32,6 +32,18 @@ class YysImageProcess(ImageProcess):
     src_img = Image.open('./assets/join_team_auto.png')
     return self.isSimilar(None, src_img)
 
+  def isTeamWait(self):
+    '''
+    判断当前是组队页面且队伍右手2个空位至少有一个人
+    '''
+    return self.isSimilar(None, Image.open('./assets/team_wait.png')) and self.isSimilar(None, Image.open('./assets/team_empty.png')) is False
+  
+  def isTeamChallenge(self):
+    '''
+    挑战按钮
+    '''
+    return self.isSimilar(None, Image.open('./assets/team_challenge.png'))
+
 def testIsImgExist(src: str, dst: str='window_shot.png'):
     a = aircv.imread('./cache/%s' % dst)
     b = aircv.imread('./assets/%s' % src)

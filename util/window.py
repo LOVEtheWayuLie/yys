@@ -17,15 +17,15 @@ def decSafeMonitorClick(func=None):
     '''
     count = 0
     safe_count = 10
-    cycle = 20 #扫描周期
+    cycle = 10 #扫描周期
     loca = locals()
 
     def safeMonitorClick():
-        time.sleep(cycle)
-        if loca['count'] > safe_count:
-            raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
-        loca['count'] = 0
-        safeMonitorClick()
+        while True:
+            time.sleep(cycle)
+            if loca['count'] > safe_count:
+                raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
+            loca['count'] = 0
     t = BaseThread(safeMonitorClick)
     t.setName('safeMonitorClick')
     t.start()
@@ -49,7 +49,7 @@ class Window:
         if hwnd == 0:
             raise ValueError('未检测到-%s' % title)
         if self.isAdmin(self) is False:
-            raise ('没有管理权限,无法正常使用')
+            raise Exception('没有管理权限,无法正常使用')
         
         self.windowReset()
 

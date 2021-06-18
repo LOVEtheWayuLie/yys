@@ -1,3 +1,4 @@
+from logging import log
 from common import *
 from util import *
 from yys_image_process import YysImageProcess
@@ -36,13 +37,13 @@ class YysWindow(Window):
     def yuHun(self):
         img_process = self.img_process
 
-        if img_process.isJoinTeam():
-            if img_process.isJoinTeamAuto():
-                self.doClickMatch(xrange=(0.8, 0.95), yrange=(0.1, 0.9))
-                logger.info('接受自动组队请求')
-            elif img_process.isJoinTeam():
-                self.doClickMatch(xrange=(0.7, 0.95), yrange=(0.1, 0.9))
-                logger.info('接受组队请求')
+        # if img_process.isJoinTeam():
+        #     if img_process.isJoinTeamAuto():
+        #         self.doClickMatch(xrange=(0.8, 0.95), yrange=(0.1, 0.9))
+        #         logger.info('接受自动组队请求')
+        #     elif img_process.isJoinTeam():
+        #         self.doClickMatch(xrange=(0.7, 0.95), yrange=(0.1, 0.9))
+        #         logger.info('接受组队请求')
 
         if img_process.isBattleSuccessOver():
             self.doClickMatch()
@@ -52,6 +53,10 @@ class YysWindow(Window):
             confidence = img_process.getComparConfidence()
             logger.info('第%s轮御魂结束, 相似度: %s ' % (self.count_yuhun, confidence))
 
-        if img_process.isFindTreasure():
-            logger.info('宝藏对比结果--->', img_process.getComparResult())
-            self.doClickBottomCorner()
+        if img_process.isTeamWait():
+            if img_process.isTeamChallenge():
+                self.doClickMatch(xrange=(0.5, 1), yrange=(0.5, 1))
+
+        # if img_process.isFindTreasure():
+        #     logger.info('宝藏对比结果--->', img_process.getComparResult())
+        #     self.doClickBottomCorner()
