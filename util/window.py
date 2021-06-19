@@ -23,7 +23,8 @@ def decSafeMonitorClick(func=None):
     def safeMonitorClick():
         while True:
             time.sleep(cycle)
-            if loca['count'] > safe_count:
+            logger.info('安全检查 当前周期点击次数: %s  安全阈值: %s' % (loca['count'], safe_count))
+            if loca['count'] >= safe_count:
                 raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
             loca['count'] = 0
     t = BaseThread(safeMonitorClick)
