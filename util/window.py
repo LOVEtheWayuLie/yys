@@ -17,7 +17,7 @@ def decSafeMonitorClick(func=None):
     '''
     count = 0
     safe_count = 10
-    cycle = 20 #扫描周期
+    cycle = 22 #扫描周期
     loca = locals()
 
     def safeMonitorClick():
