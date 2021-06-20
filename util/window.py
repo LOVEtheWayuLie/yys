@@ -23,7 +23,7 @@ def decSafeMonitorClick(func=None):
     def safeMonitorClick():
         while True:
             time.sleep(cycle)
-            logger.info('安全检查 当前周期点击次数: %s  安全阈值: %s' % (loca['count'], safe_count))
+            # logger.info('安全检查 当前周期点击次数: %s  安全阈值: %s' % (loca['count'], safe_count))
             if loca['count'] >= safe_count:
                 raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
             loca['count'] = 0
@@ -104,7 +104,7 @@ class Window:
         coor = cx, cy
         # logger.info("点击坐标 %s " % (coor,))
         logStackInfo("点击坐标 %s " % (coor,), prevNum=5)
-        time.sleep(1) # 点击后休息一会儿
+        time.sleep(0.8) # 点击后休息一会儿
         return self
 
     def doClickMatch(self, xrange: tuple=None, yrange: tuple=None, compar_res=None):
@@ -164,8 +164,10 @@ class Window:
         def wrap(self: Window, *args, **kwargs):
             if func(self, *args, **kwargs):
                 compar_res = self.img_process.getComparResult()
+                time.sleep(0.5)
                 generate = yieldFunc(self, *args, **kwargs)
                 while next(generate):
+                    time.sleep(0.5)
                     pass
                 self.img_process.compar_res = compar_res
                 return True

@@ -82,7 +82,8 @@ class YysWindow(Window):
         img_process = self.img_process
 
         if img_process.isSimilar(None, Image.open('assets/challenge_chizhen.png')):
-            self.doClickMatch()
+            self.doClickMatch(xrange=(0.8, 1), yrange=(0.9, 1.2))
+            pass
 
         
 
