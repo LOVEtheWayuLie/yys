@@ -105,7 +105,7 @@ class YysWindow(Window):
 
         if img_process.isSimilar(None, Image.open('assets/yaoqi/yaoqi_pipei.png')):
                 logger.info('开始匹配')
-                self.doClickMatch()
+                self.doClickMatch(xrange=(0, 0.7), yrange=(0.9, 1.3))
 
         if img_process.isBattleReady():
             self.doClickMatch()
