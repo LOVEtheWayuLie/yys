@@ -37,11 +37,11 @@ class YysWindow(Window):
         if self.isWaitBattleOver():
             self.count_yuhun += 1
             confidence = img_process.getComparConfidence()
-            logger.info('第%s轮活动结束, 相似度: %s ' % (self.count_yuhun, confidence))
+            logger.info('第%s轮战斗结束, 相似度: %s ' % (self.count_yuhun, confidence))
 
         if reward_accept and img_process.isReward():
             logger.info('收到一个悬赏封印')
-            time.sleep(5) # 等待3秒再接受悬赏,尽量只接受仅给我的悬赏
+            time.sleep(5) # 等待几秒再接受悬赏,尽量只接受仅给我的悬赏
             if img_process.isRewardAccept():
                 logger.info('接受悬赏, 相似度%s' % img_process.getComparConfidence())
                 self.doClickMatch()
