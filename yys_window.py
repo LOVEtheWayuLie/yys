@@ -49,7 +49,7 @@ class YysWindow(Window):
 
     def tempActivity(self):
         '''
-        阿修罗活动
+        活动脚本
         '''
         img_process = self.img_process
 
