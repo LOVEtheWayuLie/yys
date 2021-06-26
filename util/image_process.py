@@ -13,6 +13,7 @@ class ImageProcess:
     self.hwnd = hwnd
     self.compar_res = None
     self.window_image = None
+    self.image_path_list = [] #存储图片路径
 
   def __enter__(self):
     self.windowImageUpdate()
@@ -43,6 +44,25 @@ class ImageProcess:
   def printComparResult(self):
     logger.info( '图像对比结果--> %s' % self.getComparResult())
 
+  def addImagePath(self, img: Image):
+    '''
+    添加图片路径
+    '''
+    max_num = 50
+    self.image_path_list.append(img)
+    if len(self.image_path_list) > max_num:
+      self.image_path_list.pop(0)
+
+  def isImagePathEqual(self, num):
+    '''
+    判断最近num条路径是否相同
+    '''
+    if len(self.image_path_list) <= num:
+      return False
+    img = self.image_path_list[-1]
+    res = self.image_path_list[-num:]
+    return res.count(img) >= num
+
   def isSimilar(self, dst_img, src_img, threshold=0.9 ) -> bool:
     '''
     threshold: 阈值
@@ -50,7 +70,10 @@ class ImageProcess:
     if dst_img is None:
       dst_img = self.window_image
     res = self.imgFindExist(dst_img, src_img)
-    return res['confidence'] >= threshold if res is not None else False
+    isTrue = res['confidence'] >= threshold if res is not None else False
+    if isTrue:
+      self.addImagePath(src_img)
+    return isTrue
 
   def windowImageUpdate(self):
     '''

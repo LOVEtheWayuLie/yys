@@ -55,6 +55,7 @@ class YysWindow(Window):
 
         if img_process.isSimilar(None, Image.open('assets/temp_activity/challenge.png')):
             self.doClickMatch()
+            pass
 
         self.commonLogic()
 

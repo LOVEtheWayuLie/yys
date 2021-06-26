@@ -17,6 +17,7 @@ def decSafeMonitorClick(func=None):
     '''
     count = 0
     safe_count = 10
+    safe_count_equal = 6
     cycle = 22 #扫描周期
     loca = locals()
 
@@ -25,7 +26,7 @@ def decSafeMonitorClick(func=None):
             time.sleep(cycle)
             # logger.info('安全检查 当前周期点击次数: %s  安全阈值: %s' % (loca['count'], safe_count))
             if loca['count'] >= safe_count:
-                raise BaseException('%s 秒内点击 %s 次, 触发安全监测, 终止程序' % (cycle, loca['count']))
+                raise BaseException('触发安全监测, 终止程序---> %s 秒内点击 %s 次' % (cycle, loca['count']))
             loca['count'] = 0
     t = BaseThread(safeMonitorClick)
     t.setName('safeMonitorClick')
@@ -34,8 +35,11 @@ def decSafeMonitorClick(func=None):
     @BaseThread.decTreadNotAliveExit(t)
     def wrap(self, *args, **kwargs):
         loca['count'] += 1
+        if self.img_process.isImagePathEqual(safe_count_equal):
+            raise BaseException('触发安全监测, 终止程序---> 连续%s次点击相同位置' % safe_count_equal)
         return func(self, *args, **kwargs)
     return wrap
+
 
 class Window:
     def __init__(self, title, width, height, img_process: ImageProcess=None):
@@ -190,4 +194,3 @@ class Window:
                 return empty_list.count(True) >= num
             return wrap
         return wrapper
-
