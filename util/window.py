@@ -108,7 +108,7 @@ class Window:
         coor = cx, cy
         # logger.info("点击坐标 %s " % (coor,))
         logStackInfo("点击坐标 %s " % (coor,), prevNum=5)
-        time.sleep(0.8) # 点击后休息一会儿
+        time.sleep(random.uniform(1, 1.5)) # 点击后休息一会儿
         return self
 
     def doClickMatch(self, xrange: tuple=None, yrange: tuple=None, compar_res=None):
