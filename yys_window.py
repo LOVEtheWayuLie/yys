@@ -21,7 +21,7 @@ class YysWindow(Window):
                 time.sleep(1)
                 self.windowReset()
 
-    def commonLogic(self, reward_accept=True):
+    def commonLogic(self, reward_accept=True, successOver=False):
         '''
         公共逻辑抽取
         '''
@@ -33,6 +33,9 @@ class YysWindow(Window):
 
         if img_process.isBattleSuccessOver():
             self.doClickMatch()
+            if successOver:
+                self.count_yuhun += 1
+                logger.info('第%s轮战斗结束' % self.count_yuhun)
 
         if self.isWaitBattleOver():
             self.count_yuhun += 1
@@ -56,8 +59,11 @@ class YysWindow(Window):
         if img_process.isSimilar(None, Image.open('assets/temp_activity/challenge.png')):
             self.doClickMatch()
             pass
+        if img_process.isSimilar(None, Image.open('assets/temp_activity/next.png')):
+            self.doClickMatch()
+            pass
 
-        self.commonLogic()
+        self.commonLogic(successOver=True)
 
     def miWen(self):
         '''
