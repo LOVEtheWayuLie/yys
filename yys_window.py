@@ -74,7 +74,9 @@ class YysWindow(Window):
         img_process = self.img_process
 
         if img_process.isSimilar(None, Image.open('assets/challenge_miwen.png')):
+            # print(img_process.getComparResult())
             self.doClickMatch()
+            pass
 
         if img_process.isBattleReady():
             self.doClickMatch()

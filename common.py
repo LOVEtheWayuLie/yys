@@ -13,3 +13,4 @@ import sys
 import random
 import asyncio
 from threading import Thread
+from ctypes import windll

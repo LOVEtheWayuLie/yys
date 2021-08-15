@@ -1,6 +1,5 @@
 from .logger import logger
 from common import *
-from ctypes import windll
 
 class ImageProcess:
   '''

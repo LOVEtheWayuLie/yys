@@ -41,6 +41,11 @@ def decSafeMonitorClick(func=None):
     return wrap
 
 
+# 调用api设置成由应用程序缩放(防止模糊)
+# windll.shcore.SetProcessDpiAwareness(1)
+# 排除缩放干扰
+user32 = windll.user32
+# user32.SetProcessDPIAware()
 class Window:
     def __init__(self, title, width, height, img_process: ImageProcess=None):
         hwnd = win32gui.FindWindow(None, title)
@@ -65,6 +70,12 @@ class Window:
         '''
         return bool(ctypes.windll.shell32.IsUserAnAdmin())
 
+    def getDpiScale(self):
+        hDC = user32.GetDC(0)
+        dpi = windll.gdi32.GetDeviceCaps(hDC, win32con.LOGPIXELSX)/96
+        logger.info('dpi_scale--> %s' % dpi)
+        return dpi
+
     def getClientSize(self):
         '''
         客户区域大小
@@ -86,13 +97,15 @@ class Window:
         width = self.width
         height = self.height
         rect  = win32gui.GetWindowRect(hwnd)
+        # print( self.client_width, self.client_height, 'self.getClientSize()-->', self.getClientSize(), self.getWindowRectSize())
         isSizeEffect = self.client_width == self.getClientSize()[0]
         if rect[0] < 0 or isSizeEffect is False:
+            dpi = self.getDpiScale()
             # 激活最小化的窗口
             win32gui.SendMessage(hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
             # 激活后再获取窗口位置信息
             rect  = win32gui.GetWindowRect(hwnd)
-            win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, rect[0], rect[1], width, height, win32con.SWP_SHOWWINDOW)
+            win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, rect[0], rect[1], int(width), int(height), win32con.SWP_SHOWWINDOW)
             self.client_width, self.client_height = self.getClientSize()
             logger.info('重置窗口尺寸--> %s, client区域尺寸--->%s' % ((width, height), self.getClientSize()))
 
