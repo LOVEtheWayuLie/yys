@@ -72,11 +72,13 @@ class YysWindow(Window):
         self.commonLogic()
 
         img_process = self.img_process
+        challenge_imgs_arr = ['assets/challenge_miwen.png', 'assets/challenge_miwen2.png']
 
-        if img_process.isSimilar(None, Image.open('assets/challenge_miwen.png')):
-            # print(img_process.getComparResult())
-            self.doClickMatch()
-            pass
+        for img in challenge_imgs_arr:
+            if img_process.isSimilar(None, Image.open(img)):
+                # print(img_process.getComparResult())
+                self.doClickMatch()
+                break
 
         if img_process.isBattleReady():
             self.doClickMatch()
