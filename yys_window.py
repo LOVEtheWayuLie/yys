@@ -63,11 +63,13 @@ class YysWindow(Window):
             if img_process.isSimilar(None, Image.open(img)):
                 self.doClickMatch()
                 pass
+            
+                
         if img_process.isSimilar(None, Image.open('assets/temp_activity/next.png')):
             self.doClickMatch()
             pass
 
-        self.commonLogic(successOver=True)
+        self.commonLogic(successOver=False)
 
     def miWen(self):
         '''

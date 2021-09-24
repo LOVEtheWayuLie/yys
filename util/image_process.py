@@ -22,6 +22,7 @@ class ImageProcess:
   def __exit__(self, exc_type, exc_value, exc_tb):
     if exc_tb is not None:
       logger.error('异常: %s' % exc_value)
+    self.window_image.close()
     self.window_image = None
 
   def imgFindExist(self, dst_img, src_img):
