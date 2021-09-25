@@ -25,7 +25,7 @@ class ImageProcess:
     self.window_image.close()
     self.window_image = None
 
-  def imgFindExist(self, dst_img, src_img):
+  def imgFindExist(self, dst_img, src_img: Image):
     '''
     每次对比更新对比结果
     '''
@@ -64,7 +64,7 @@ class ImageProcess:
     res = self.image_path_list[-num:]
     return res.count(img) >= num
 
-  def isSimilar(self, dst_img, src_img, threshold=0.9 ) -> bool:
+  def isSimilar(self, dst_img, src_img: Image, threshold=0.9 ) -> bool:
     '''
     threshold: 阈值
     '''
@@ -77,6 +77,15 @@ class ImageProcess:
     else:
       src_img.close()
     return isTrue
+
+  def loopEqual(self, num, src_path) -> bool:
+    path_arr = []
+    for i in range(1, num+1):
+      path_arr.append(src_path % (i if i>1 else '',))
+    for img_path in path_arr:
+      if self.isSimilar(None, Image.open(img_path)):
+        return True
+    return False
 
   def windowImageUpdate(self):
     '''

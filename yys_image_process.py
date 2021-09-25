@@ -65,10 +65,22 @@ class YysImageProcess(ImageProcess):
     '''
     悬赏封印
     '''
-    return self.isSimilar(None, Image.open('./assets/reward.png'))
+    return self.loopEqual(2, './assets/reward%s.png')
 
   def isRewardAccept(self):
-    return self.isSimilar(None, Image.open('./assets/reward_accept.png'))
+    '''
+    接受悬赏封印
+    '''
+    img_path_arr = []
+    pic_count = 2
+    for i in range(1, pic_count+1):
+      img_path_arr.append('./assets/reward_accept%s.png' % (i if i > 1 else '', ))
+    for img_path in img_path_arr:
+      print(img_path)
+      if self.isSimilar(None, Image.open(img_path)):
+        return True
+    return False
+    # return self.isSimilar(None, Image.open('./assets/reward_accept.png'))
 
 def testIsImgExist(src: str, dst: str='window_shot.png'):
     a = aircv.imread('./cache/%s' % dst)
