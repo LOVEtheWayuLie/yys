@@ -51,7 +51,8 @@ class ImageProcess:
     max_num = 50
     self.image_path_list.append(img)
     if len(self.image_path_list) > max_num:
-      self.image_path_list.pop(0)
+      f = self.image_path_list.pop(0)
+      f.close()
 
   def isImagePathEqual(self, num):
     '''
@@ -73,6 +74,8 @@ class ImageProcess:
     isTrue = res['confidence'] >= threshold if res is not None else False
     if isTrue:
       self.addImagePath(src_img)
+    else:
+      src_img.close()
     return isTrue
 
   def windowImageUpdate(self):

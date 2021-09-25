@@ -79,8 +79,8 @@ class YysWindow(Window):
 
         img_process = self.img_process
         challenge_imgs_arr = []
-        for i in range(1, 4):
-            challenge_imgs_arr.append('assets/challenge_miwen%s.png' % (i if i>1 else '', ))
+        for i in range(1, 5):
+            challenge_imgs_arr.append('assets/miwen/challenge_miwen%s.png' % (i if i>1 else '', ))
 
         for img in challenge_imgs_arr:
             if img_process.isSimilar(None, Image.open(img)):

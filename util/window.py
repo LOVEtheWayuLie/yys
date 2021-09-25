@@ -17,7 +17,7 @@ def decSafeMonitorClick(func=None):
     '''
     count = 0
     safe_count = 10
-    safe_count_equal = 6
+    safe_count_equal = 6 #判断连续点击相同位置
     cycle = 22 #扫描周期
     loca = locals()
 
