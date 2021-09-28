@@ -55,7 +55,7 @@ class YysWindow(Window):
         活动脚本
         '''
         img_process = self.img_process
-        if img_process.loopEqual(4, 'assets/temp_activity/challenge%s.png'):
+        if img_process.loopEqual(5, 'assets/temp_activity/challenge%s.png'):
             self.doClickMatch()
                 
         if img_process.isSimilar(None, Image.open('assets/temp_activity/next.png')):

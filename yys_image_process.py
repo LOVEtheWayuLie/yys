@@ -59,7 +59,7 @@ class YysImageProcess(ImageProcess):
     '''
     确认掉线
     '''
-    return self.isSimilar(None, Image.open('./assets/off_line.png'))
+    return self.loopEqual(2, './assets/off_line%s.png')
 
   def isReward(self):
     '''
